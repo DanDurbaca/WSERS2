@@ -29,6 +29,7 @@
             $stmt->bind_param("ssissi", $_GET["FirstName"], $_GET["LastName"], $_GET["Age"], $_GET["Username"], $_GET["Password"], $_GET["Country"]);
             $stmt->execute();
             print "Yaaay you have registered. Check the database <BR>";
+            ?><a href="login.php">Go To the login page</a><?php
         }
     } else {
 
