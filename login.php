@@ -18,8 +18,9 @@ if (
     if ($result->num_rows === 1) {
         print "We are checking your password <BR>";
         $row = $result->fetch_assoc();
-        print $row["PERSON_ID"]; // check
-        if ($row["Password"]===$_POST["Password"])
+        
+        if(password_verify($_POST["Password"], $row["Password"]))
+        //if ($row["Password"]===$hashedPassword)
         {
             print "Ok... You are now successfully registered";
         }
