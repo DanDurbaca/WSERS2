@@ -20,7 +20,6 @@ if (
         $row = $result->fetch_assoc();
         
         if(password_verify($_POST["Password"], $row["Password"]))
-        //if ($row["Password"]===$hashedPassword)
         {
             print "Ok... You are now successfully registered";
         }
