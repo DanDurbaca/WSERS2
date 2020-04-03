@@ -10,11 +10,10 @@ PASSWORD_DEFAULT capacity is beyond 60 characters
 */
 $password_encrypted = password_hash($password, PASSWORD_BCRYPT);
 
-
 if (password_verify($password_inputted_by_user, $password_encrypted)) {
     // Success!
     echo 'Password Matches';
-}else {
+} else {
     // Invalid credentials
     echo 'NO';
 }
