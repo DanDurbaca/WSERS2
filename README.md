@@ -21,8 +21,9 @@ Browser: F5
 3. run the prettierPhpInstall.bat
 4. create .gitignore file with the following contents:
 
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Gitignore
 
+See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 /node_modules
 
 npm-debug.log*

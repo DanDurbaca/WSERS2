@@ -1,25 +1,27 @@
 <?php
+include_once "sessionCheck.php";
+include_once "credentials.php";
+include_once "displayUser.php";
 
-if (isset($_POST["Username"]) && isset($_POST["Password"])) {
-    include_once "credentials.php";
-    // Create connection
-    $connection = mysqli_connect($servername, $username, $password, $database);
-    // Check connection
-    if (!$connection) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    $userFromMyDatabase = $connection->prepare(
-        "SELECT * FROM ppl WHERE UserName=?"
-    );
+if (isset($_POST["Logout"])) {
+    session_unset();
+    session_destroy();
+    print "Successfully unregistered";
+} elseif ($_SESSION["UserLogged"]) {
+    print "You already have logged in " . "<BR>";
+    DisplayUserDetails($connection);
+} elseif (isset($_POST["Username"]) && isset($_POST["Password"])) {
+    $userFromMyDatabase = $connection->prepare("SELECT * FROM ppl WHERE UserName=?");
     $userFromMyDatabase->bind_param("s", $_POST["Username"]);
     $userFromMyDatabase->execute();
     $result = $userFromMyDatabase->get_result();
     if ($result->num_rows === 1) {
         print "We are checking your password <BR>";
         $row = $result->fetch_assoc();
-
         if (password_verify($_POST["Password"], $row["Password"])) {
-            print "Ok... You are now successfully registered";
+            $_SESSION["UserLogged"] = true;
+            $_SESSION["CurrentUser"] = $row["PERSON_ID"];
+            DisplayUserDetails($connection);
         } else {
             print "Wrong password !";
         }
