@@ -23,18 +23,21 @@ include_once "sessionCheck.php"; ?>
         if ($result->num_rows > 0) {
             print "Your username is already taken ! <BR>";
         } else {
-            $stmt = $connection->prepare("INSERT INTO ppl(First_Name,Second_Name,Age,UserName,Password,Nationality) VALUES(?,?,?,?,?,?)");
+            $stmt = $connection->prepare(
+                "INSERT INTO ppl(First_Name,Second_Name,Age,UserName,Password,Nationality,User_role ) VALUES(?,?,?,?,?,?,?)"
+            );
 
             $hashedPassword = password_hash($_POST["Password"], PASSWORD_BCRYPT);
-
+            $userType = 2;
             $stmt->bind_param(
-                "ssissi",
+                "ssissii",
                 $_POST["FirstName"],
                 $_POST["LastName"],
                 $_POST["Age"],
                 $_POST["Username"],
                 $hashedPassword,
-                $_POST["Country"]
+                $_POST["Country"],
+                $userType // this MUST BE a CUSTOMER !!!
             );
             $stmt->execute();
             print "Yaaay you have registered. Check the database <BR>";
@@ -61,7 +64,7 @@ include_once "sessionCheck.php"; ?>
 
             <select name="Country">
                 <?php
-                $stmt = $connection->prepare("SELECT * FROM countries");
+                $stmt = $connection->prepare("SELECT * FROM COUNTRIES");
                 $stmt->execute();
                 $result = $stmt->get_result();
 
