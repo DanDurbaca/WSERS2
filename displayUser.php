@@ -9,6 +9,15 @@ function DisplayUserDetails($connection)
         $userFromMyDatabase->bind_param("i", $_SESSION["CurrentUser"]);
         $userFromMyDatabase->execute();
         $result = $userFromMyDatabase->get_result();
+        // NORMALLY -> I MUST HAVE 1 SINGLE RESULT
+        if ($result->num_rows == 0) {
+            // BUT WHAT IF I DONT !?!?!?
+            print "Failed displaying user data. Something is wrong with the database -> Logging out automatically";
+            session_destroy();
+            session_unset();
+            die("We stopped here");
+        }
+
         $row = $result->fetch_assoc();
         /* 
             -> First_Name
